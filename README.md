@@ -1,0 +1,1 @@
+# JustWatch integration for Radarr
