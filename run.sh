@@ -1,5 +1,5 @@
 while :
 do
-    python plex_collections.py run
+    python radarr_justwatch.py
     sleep $SCAN_INTERVAL
 done
