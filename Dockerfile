@@ -1,5 +1,5 @@
 #escape=`
-FROM rackspacedot/python37:latest
+FROM python:3.9-buster
 
 ENV RADARR_HOST_URL=http://localhost:7878
 ENV RADARR_API_KEY=00000000000000000000000000000000
