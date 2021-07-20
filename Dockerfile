@@ -7,7 +7,7 @@ ENV COUNTRY=PL
 ENV SCAN_INTERVAL=43200
 
 WORKDIR /radarr_justwatch
-COPY radarr_justwatch.py requirements.txt run.sh ./
+COPY radarr_justwatch.py requirements.txt run.sh config.yml ./
 
 RUN python3 -m pip install -r requirements.txt
 RUN chmod +x radarr_justwatch.py run.sh
