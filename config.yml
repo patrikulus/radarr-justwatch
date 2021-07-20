@@ -1,0 +1,11 @@
+platforms:
+  - url: http://www.netflix.com
+    name: netflix
+  - url: https://hbogo.pl
+    name: hbogo
+  - url: https://app.primevideo.com
+    name: primevideo
+  - url: https://www.horizon.tv
+    name: horizon
+  - url: https://player.pl
+    name: player

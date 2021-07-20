@@ -1,52 +1,41 @@
 import requests
 import time
 import os
+import yaml
 from justwatch import JustWatch
 from pyarr import RadarrAPIv3
 
-host_url = 'http://localhost:7878'
+host_url = os.environ.get('RADARR_HOST_URL')
 api_key = os.environ.get('RADARR_API_KEY')
+country = os.environ.get('COUNTRY')
 
 radarr = RadarrAPIv3(host_url, api_key)
-just_watch = JustWatch(country='PL')
+just_watch = JustWatch(country=country)
 
-# results = just_watch.search_for_item(query='wanted')
-
-# Import SonarrAPI Class
-
-# Set Host URL and API-Key
-
-# You can find your API key in Settings > General.
 
 def get_tag_from_url(url, tags):
-    platform = ''
-    if url.startswith('http://www.netflix.com'):
-        platform = 'netflix'
-    if url.startswith('https://hbogo.pl'):
-        platform = 'hbogo'
-    if url.startswith('https://app.primevideo.com'):
-        platform = 'primevideo'
-    if url.startswith('https://www.horizon.tv'):
-        platform = 'horizon'
-    if url.startswith('https://player.pl'):
-        platform = 'player'
-    
-    if platform != '':
-        return list(filter(lambda tag: tag['label'] == platform, tags))[0]['id']
+    target_platform = ''
+    config = dict()
+
+    with open('config.yml', 'r') as stream:
+        try:
+            config = yaml.safe_load(stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    for platform in config['platforms']:
+        if url.startswith(platform['url']):
+            target_platform = platform['name']
+  
+    if target_platform != '':
+        return next(tag['id'] for tag in tags if tag['label'] == target_platform)
     return 0
     
-     
-
-
-# movie = radarr.get_movie(343668)
-# movie[0]['tags'].append(4)
-# radarr.update_movie(movie[0])
-
 
 tags = (requests.get(host_url + "/api/v3/tag?apiKey=" + api_key)).json()
 movies = radarr.get_movie()
-# movies = radarr.lookup_movie("Matrix Reloaded")
-# jw_test = just_watch.search_title_id(8909)
+
+
 # reset tags
 # for movie in movies:
 #     movie['tags'] = []
